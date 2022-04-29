@@ -13,7 +13,7 @@
   --blue-color: #449dd1;
   --gray-color: #989c94;
 
-  --sorting-container-size: 530px;
+  --sorting-container-size: 80vh;
 }
 
 * {
@@ -82,7 +82,8 @@ p {
 }
 
 .selectedAlgorithm p {
-  font-size: 1.5rem;
+  margin-top: 2px;
+  font-size: 1.7rem;
   font-weight: 600;
   color: var(--font-color-main-2);
 }
@@ -141,12 +142,12 @@ p {
 .shuffleButton:hover,
 .shuffleButton:focus {
   background-color: var(--accent-color-hover);
-  transform: scale(102%);
+  transform: scale(105%);
 }
 
 .shuffleButton:active {
   background-color: var(--accent-color-hover);
-  transform: scale(99%);
+  transform: scale(100%);
 }
 
 /* .playSvg {
@@ -167,12 +168,12 @@ p {
 .runButton:hover,
 .runButton:focus {
   background-color: var(--green-color-hover);
-  transform: scale(102%);
+  transform: scale(105%);
 }
 
 .runButton:active {
   background-color: var(--green-color-hover);
-  transform: scale(99%);
+  transform: scale(100%);
 }
 
 /* .runButton:active {

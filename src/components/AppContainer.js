@@ -8,14 +8,21 @@ export class AppContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      arrayNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      arrayColor: Array(10).fill("#989c94"),
-      sortSpeed: 500,
+      arrayNum: [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+        39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+      ],
+      arrayColor: Array(50).fill(this.gray),
+      sortSpeed: 50,
       stopRunning: false,
       isRunning: false,
       currentAlgorithm: "Bubble Sort",
     };
   }
+  gray = "#989c94";
+  red = "#fd4f4f";
+  green = "#2c9425";
 
   shuffle() {
     this.setState({ stopRunning: true });
@@ -62,9 +69,9 @@ export class AppContainer extends React.Component {
         }
 
         // let color =
-        //   (!swapHappend && i === arr[i - 1]) || false ? "#449dd1" : "#989c94";
-        this.state.arrayColor[i - 1] = "#989c94";
-        this.state.arrayColor[i] = "#fd4f4f";
+        //   (!swapHappend && i === arr[i - 1]) || false ? "#449dd1" : this.gray;
+        this.state.arrayColor[i - 1] = this.gray;
+        this.state.arrayColor[i] = this.red;
         this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
         await this.delay(this.state.sortSpeed);
         if (this.state.stopRunning) return;
@@ -86,28 +93,28 @@ export class AppContainer extends React.Component {
     while (i < len) {
       let j = i;
       while (j > 0 && arr[j - 1] > arr[j]) {
-        this.state.arrayColor[j] = "#fd4f4f";
+        this.state.arrayColor[j] = this.red;
         // this.state.arrayColor[j - 1] = "#449dd1";
         this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
         await this.delay(this.state.sortSpeed / 2);
         if (this.state.stopRunning) return;
         this.swap(arr, j, j - 1);
-        this.state.arrayColor[j - 1] = "#fd4f4f";
+        this.state.arrayColor[j - 1] = this.red;
         // this.state.arrayColor[j] = "#449dd1";
-        this.state.arrayColor[j] = "#989c94";
+        this.state.arrayColor[j] = this.gray;
         this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
         await this.delay(this.state.sortSpeed / 2);
         if (this.state.stopRunning) return;
-        // this.state.arrayColor[j] = "#989c94";
+        // this.state.arrayColor[j] = this.gray;
         j--;
       }
-      this.state.arrayColor[j] = "#989c94";
+      this.state.arrayColor[j] = this.gray;
       i++;
     }
   }
 
   async quickSort(arr, left, right) {
-    // if (this.state.stopRunning) return;
+    if (this.state.stopRunning) return;
     if (left >= right || left < 0) return;
     var index = await this.partition(arr, left, right); //index returned from partition
 
@@ -132,26 +139,27 @@ export class AppContainer extends React.Component {
       // }
       if (arr[j] <= pivot && i - 1 !== j) {
         i++;
-        this.state.arrayColor[i] = "#fd4f4f";
-        this.state.arrayColor[j] = "#fd4f4f";
+        this.state.arrayColor[i] = this.red;
+        this.state.arrayColor[j] = this.red;
         this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
         await this.delay(this.state.sortSpeed / 2);
         if (this.state.stopRunning) return;
         this.swap(arr, i, j);
-        this.state.arrayColor[i] = "#989c94";
-        this.state.arrayColor[j] = "#989c94";
+        this.state.arrayColor[i] = this.gray;
+        this.state.arrayColor[j] = this.gray;
         this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
         await this.delay(this.state.sortSpeed / 2);
         if (this.state.stopRunning) return;
       }
     }
-    this.state.arrayColor[right] = "#989c94";
+    this.state.arrayColor[right] = this.gray;
     i++;
     this.swap(arr, i, right);
     return i;
   }
 
   async mergeSort(arr, left, right) {
+    if (this.state.stopRunning) return;
     if (left < right) {
       let middle = Math.floor((left + right) / 2);
 
@@ -207,37 +215,38 @@ export class AppContainer extends React.Component {
         start2++;
       }
       // this.state.arrayColor[start] = "#1d4f4f";
-      // this.state.arrayColor[start2] = "#fd4f4f";
+      // this.state.arrayColor[start2] = this.red;
       // this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
       // await this.delay(this.state.sortSpeed / 2);
       // if (this.state.stopRunning) return;
       // this.swap(arr, start, start2); //swap two elements
-      // this.state.arrayColor[start] = "#989c94";
-      // this.state.arrayColor[start2] = "#989c94";
+      // this.state.arrayColor[start] = this.gray;
+      // this.state.arrayColor[start2] = this.gray;
 
       // if (arr[start] <= arr[start2]) {
       //   start++;
       // } else {
       //   // while (arr[start] > arr[start2]) {
       //   this.state.arrayColor[start] = "#1d4f4f";
-      //   this.state.arrayColor[start2] = "#fd4f4f";
+      //   this.state.arrayColor[start2] = this.red;
       //   this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
       //   await this.delay(this.state.sortSpeed / 2);
       //   if (this.state.stopRunning) return;
       //   this.swap(arr, start, start2); //swap two elements
-      //   this.state.arrayColor[start] = "#989c94";
-      //   this.state.arrayColor[start2] = "#989c94";
+      //   this.state.arrayColor[start] = this.gray;
+      //   this.state.arrayColor[start2] = this.gray;
       //   start++;
       //   start2++;
       //   console.log(start, arr[start], start2, arr[start2]);
       //   // }
       //   mid++;
       // }
-      // this.state.arrayColor[j] = "#989c94";
-      this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
+      // this.state.arrayColor[j] = this.gray;
+      // this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
 
       this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
       await this.delay(this.state.sortSpeed / 1);
+      if (this.state.stopRunning) return;
     }
   }
 
@@ -265,6 +274,7 @@ export class AppContainer extends React.Component {
   // To heapify a subtree rooted with node i which is
   // an index in arr[]. n is size of heap
   async heapify(arr, n, parent) {
+    if (this.state.stopRunning) return;
     var largest = parent; // Initialize largest as root
     var left = 2 * parent + 1; // left = 2*i + 1
     var right = 2 * parent + 2; // right = 2*i + 2
@@ -278,13 +288,19 @@ export class AppContainer extends React.Component {
     // If largest is not root
     if (largest !== parent) {
       let a = parseInt(Math.floor(Math.random() * 10));
-      this.state.arrayColor[parent] = "#" + a + "d4f4f";
+      this.state.arrayColor[parent] = this.red;
+      this.state.arrayColor[largest] = this.red;
       this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
       await this.delay(this.state.sortSpeed / 2);
+      if (this.state.stopRunning) return;
+
       this.swap(arr, parent, largest);
 
+      this.state.arrayColor[parent] = this.gray;
+      this.state.arrayColor[largest] = this.gray;
       this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
       await this.delay(this.state.sortSpeed / 2);
+      if (this.state.stopRunning) return;
 
       // Recursively heapify the affected sub-tree
       await this.heapify(arr, n, largest);
@@ -295,12 +311,12 @@ export class AppContainer extends React.Component {
   of the sub-array of arr to be sorted */
 
   setColorGray() {
-    this.setState({ arrayColor: this.state.arrayColor.fill("#989c94") });
+    this.setState({ arrayColor: this.state.arrayColor.fill(this.gray) });
   }
 
   async setColorCorrect() {
     for (let i = 0; i < this.state.arrayColor.length; i++) {
-      this.state.arrayColor[i] = "#679436";
+      this.state.arrayColor[i] = this.green;
       this.setState({ arrayColor: this.state.arrayColor });
       await this.delay(this.state.sortSpeed / 10);
     }
@@ -308,6 +324,7 @@ export class AppContainer extends React.Component {
 
   async runAlgorithm() {
     if (this.state.isRunning) return;
+    this.setColorGray();
     await this.setState({ stopRunning: false, isRunning: true });
     // console.log(this.state.currentAlgorithm);
     // this.state.currentAlgorithm();
@@ -341,7 +358,7 @@ export class AppContainer extends React.Component {
   generateNewArrays(len) {
     this.setState({ stopRunning: true });
     let newArrayNum = Array(parseInt(len));
-    let newArrayColor = Array(parseInt(len)).fill("#989c94");
+    let newArrayColor = Array(parseInt(len)).fill(this.gray);
 
     for (let i = 0; i < len; i++) {
       newArrayNum[i] = i + 1;
