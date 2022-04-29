@@ -1,0 +1,258 @@
+:root {
+  --main-color: #233d4d;
+  --accent-color: #fcca46;
+  --accent-color-hover: #c29d37;
+  --font-color-main: #f2fdff;
+  --font-color-main-2: #bbc4c6;
+  --font-color-contrast-1: #374f5d;
+  --font-color-contrast-2: #495f6c;
+  --green-color-2: #679436;
+  --green-color: #37cf2c; /*#63D471*/
+  --green-color-hover: #2c9425; /*#63D471*/
+  --pink-color: #fd4f4f;
+  --blue-color: #449dd1;
+  --gray-color: #989c94;
+
+  --sorting-container-size: 530px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  color: var(--font-color-main);
+}
+
+body {
+  background-color: var(--main-color);
+  color: var(--font-color-main);
+}
+
+main {
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
+}
+
+.mainApp {
+  display: flex;
+  align-content: center;
+  /* border: 2px solid red; */
+  margin: 30px auto 0 auto;
+  width: 100%;
+}
+
+h1 {
+  opacity: 0.05;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  text-align: center;
+  margin: auto;
+  font-size: 6.8rem;
+}
+
+.h1Part1 {
+  transform: rotate(180deg);
+}
+
+h2 {
+  font-size: 1.8rem;
+}
+
+p {
+  color: var(--font-color-main-2);
+}
+
+.algorithmContainer {
+  width: 30%;
+}
+
+.chooseAlgorithm {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: var(--sorting-container-size);
+  margin-bottom: 10px;
+}
+
+.selectedAlgorithm {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.selectedAlgorithm p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--font-color-main-2);
+}
+
+.algorithmContainer h2 {
+  margin-bottom: 10px;
+  /* font-size: 2rem; */
+}
+
+.algorithmButton {
+  background-color: transparent;
+  color: var(--font-color-main-2);
+  margin: 10px 0;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.algorithmButton:hover,
+.algorithmButton:focus {
+  font-weight: 600;
+}
+.algorithmButton:active {
+  transform: scale(95%);
+}
+
+.sortingAndButtonContainer {
+  width: 85%;
+}
+
+.sortingCellGridContainer {
+  /* background-color: lightgray; */
+  padding: 20px;
+  height: var(--sorting-container-size);
+  border: 3px solid var(--accent-color);
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.buttonContainer {
+  display: grid;
+  grid-template-columns: 35% 35% 15% 15%;
+}
+
+.shuffleButton {
+  background-color: var(--accent-color);
+  stroke-width: 5px;
+  height: 100px;
+  aspect-ratio: 1;
+  margin: 10px auto;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+}
+
+.shuffleButton:hover,
+.shuffleButton:focus {
+  background-color: var(--accent-color-hover);
+  transform: scale(102%);
+}
+
+.shuffleButton:active {
+  background-color: var(--accent-color-hover);
+  transform: scale(99%);
+}
+
+/* .playSvg {
+  margin-left: 10px;
+} */
+
+.runButton {
+  position: relative;
+  background-color: var(--green-color);
+  height: 100px;
+  aspect-ratio: 1;
+  padding: 10px;
+  margin: 10px auto;
+  border-radius: 50%;
+  border: none;
+}
+
+.runButton:hover,
+.runButton:focus {
+  background-color: var(--green-color-hover);
+  transform: scale(102%);
+}
+
+.runButton:active {
+  background-color: var(--green-color-hover);
+  transform: scale(99%);
+}
+
+/* .runButton:active {
+  transform: translateY(10px);
+} */
+
+/* .runButton::before:active {
+  transform: translateY(5px);
+} */
+
+.playSvg {
+  margin-left: 12px;
+  margin-top: 2px;
+}
+/* 
+.runButton::before {
+  z-index: -1;
+  content: "";
+  background-color: #1e6619;
+  background-color: red;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: 5px;
+  left: 0;
+} */
+
+.sliderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sliderContainer h2 {
+}
+
+#slider {
+  -webkit-appearance: none;
+  width: 80%;
+  height: 20px;
+  margin: 20px 0;
+  border-radius: 10px;
+  background: var(--font-color-contrast-2);
+  outline: none;
+  opacity: 0.9;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+#slider:hover {
+  opacity: 1;
+}
+
+#slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--accent-color);
+  cursor: pointer;
+}
+
+#slider::-moz-range-thumb {
+  width: 20px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--accent-color);
+  cursor: pointer;
+}
+
+#slider::-webkit-slider-thumb:hover {
+  background: var(--accent-color-hover);
+}
+
+#slider::-moz-range-thumb:hover {
+  background: var(--accent-color-hover);
+}
+
+.sliderSpeed {
+  transform: rotate(180deg);
+}

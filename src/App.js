@@ -1,11 +1,12 @@
 import "./App.css";
-import { SettingsBar } from "./components/SettingsBar";
+import { AppContainer } from "./components/AppContainer";
 
 function App() {
   return (
     <div className="App">
-      <div className="sortingContainer"></div>
-      <SettingsBar></SettingsBar>
+      {/* <div className="sortingContainer"></div> */}
+      {/* <SettingsBar></SettingsBar> */}
+      <AppContainer></AppContainer>
     </div>
   );
 }

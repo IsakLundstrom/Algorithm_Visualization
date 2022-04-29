@@ -1,0 +1,160 @@
+  // const cells = {
+  //   backgroundColor: "green",
+  // };
+
+  // const printCells = () => {
+  //   const cells = [];
+  //   for (var i = 0; i < array.length; i++) {
+  //     cells.push(
+  //       <div
+  //         style={{
+  //           height: (100 / array.length) * array[i] + "%",
+  //           backgroundColor: "green",
+  //         }}
+  //       >
+  //         {array[i]}
+  //       </div>
+  //     );
+  //   }
+  //   return cells;
+  // };
+
+  // (100 / array.length) * i
+  // console.log(array);
+
+        {/* <div style={sortingCellsGrid}>
+          {array.map((i) => {
+            return (
+              <div
+                style={{
+                  height: (100 / array.length) * i + "%",
+                  backgroundColor: "#989c94",
+                  borderRadius: 100 / array.length + "px",
+                  marginTop: "auto",
+                }}
+                key={i}
+              >
+                {}
+              </div>
+            );
+          })}
+        </div> */}
+
+      {/* <div className="sortingCellGrid" style={numCellsGrid}>
+        {printCells}
+      </div> */}
+
+
+
+
+
+
+  function merge(arr, l, m, r) {
+    var n1 = m - l + 1;
+    var n2 = r - m;
+
+    // Create temp arrays
+    var L = new Array(n1);
+    var R = new Array(n2);
+
+    // Copy data to temp arrays L[] and R[]
+    for (var i = 0; i < n1; i++) L[i] = arr[l + i];
+    for (var j = 0; j < n2; j++) R[j] = arr[m + 1 + j];
+
+    // Merge the temp arrays back into arr[l..r]
+
+    // Initial index of first subarray
+    var i = 0;
+
+    // Initial index of second subarray
+    var j = 0;
+
+    // Initial index of merged subarray
+    var k = l;
+
+    while (i < n1 && j < n2) {
+      if (L[i] <= R[j]) {
+        arr[k] = L[i];
+        i++;
+      } else {
+        arr[k] = R[j];
+        j++;
+      }
+      k++;
+    }
+
+    // Copy the remaining elements of
+    // L[], if there are any
+    while (i < n1) {
+      arr[k] = L[i];
+      i++;
+      k++;
+    }
+
+    // Copy the remaining elements of
+    // R[], if there are any
+    while (j < n2) {
+      arr[k] = R[j];
+      j++;
+      k++;
+    }
+  }
+
+  // l is for left index and r is
+  // right index of the sub-array
+  // of arr to be sorted */
+  async function mergeSort(arr, l, r) {
+    // await delay(0);
+    if (l >= r) {
+      console.log("done", l, r);
+      return; //returns recursively
+    }
+    var m = l + parseInt((r - l) / 2);
+    // async setTimeout(function () {
+    //   console.log("wait");
+    // }, 1000);
+
+    mergeSort(arr, l, m);
+    mergeSort(arr, m + 1, r);
+    merge(arr, l, m, r);
+    console.log([...arr], l, r);
+    setArray([...arr]);
+  }
+
+  function mergeSortStart(arr) {
+    mergeSort(arr, 0, arr.length - 1);
+  }
+
+
+  async bblSort() {
+    let arr = this.state.arrayNum;
+
+    for (var i = 0; i < arr.length; i++) {
+      // Last i elements are already in place
+      for (var j = 0; j < arr.length - i - 1; j++) {
+        if (this.state.stopRunning) {
+          return;
+        }
+        // Checking if the item at present iteration
+        // is greater than the next iteration
+        if (arr[j] > arr[j + 1]) {
+          // If the condition is true then swap them
+          var temp = arr[j];
+          arr[j] = arr[j + 1];
+          arr[j + 1] = temp;
+        }
+        this.state.arrayColor[j] = "#989c94";
+        this.state.arrayColor[j + 1] = "#fd4f4f";
+        this.setState({ arrayColor: this.state.arrayColor });
+        this.setState({ arrayNum: arr });
+        await this.delay(this.state.sortSpeed);
+      }
+      if (this.state.stopRunning) {
+        return;
+      }
+      // await this.delay(this.state.sortSpeed);
+      this.state.arrayColor[arr.length - i - 1] = "#449dd1";
+      this.setState({ arrayColor: this.state.arrayColor });
+    }
+    // Print the sorted array
+  }
