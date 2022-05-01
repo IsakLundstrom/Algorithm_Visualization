@@ -3,15 +3,15 @@ import React from "react";
 import { SortingCellGrid } from "./SortingCellGrid";
 import { ReactComponent as ShuffleSvg } from "./refresh-svg.svg";
 import { ReactComponent as PlaySvg } from "./play-svg.svg";
+import pop from "./pop.mp3";
 
 export class AppContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       arrayNum: [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-        21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
-        39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+        31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
       ],
       arrayColor: Array(50).fill(this.gray),
       sortSpeed: 50,
@@ -20,13 +20,15 @@ export class AppContainer extends React.Component {
       currentAlgorithm: "Bubble Sort",
     };
   }
+  //Color variables
   gray = "#989c94";
   red = "#fd4f4f";
+  blue = "#449dd1";
   green = "#2c9425";
 
   shuffle() {
     this.setState({ stopRunning: true });
-    let arr = this.state.arrayNum;
+    var arr = this.state.arrayNum;
     let currentIndex = arr.length,
       randomIndex;
 
@@ -37,10 +39,7 @@ export class AppContainer extends React.Component {
       currentIndex--;
 
       // And swap it with the current element.
-      [arr[currentIndex], arr[randomIndex]] = [
-        arr[randomIndex],
-        arr[currentIndex],
-      ];
+      [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
     }
     // console.log(array);
     this.setState({ arrayNum: arr });
@@ -55,8 +54,7 @@ export class AppContainer extends React.Component {
     arr[j] = temp;
   }
 
-  async bubbleSort() {
-    let arr = this.state.arrayNum;
+  async bubbleSort(arr) {
     let len = arr.length;
     let swapHappend = true;
     while (swapHappend) {
@@ -86,8 +84,7 @@ export class AppContainer extends React.Component {
     }
   }
 
-  async insertionSort() {
-    let arr = this.state.arrayNum;
+  async insertionSort(arr) {
     let len = arr.length;
     let i = 1;
     while (i < len) {
@@ -127,7 +124,7 @@ export class AppContainer extends React.Component {
     // console.log(arr.length, "partition");
     var pivot = arr[right]; //middle element
     var i = left - 1; //left pointer
-    this.state.arrayColor[right] = "#449dd1";
+    this.state.arrayColor[right] = this.blue;
     this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
     // await this.delay(this.state.sortSpeed);
     for (var j = left; j < right; j++) {
@@ -142,14 +139,11 @@ export class AppContainer extends React.Component {
         this.state.arrayColor[i] = this.red;
         this.state.arrayColor[j] = this.red;
         this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
-        await this.delay(this.state.sortSpeed / 2);
+        await this.delay(this.state.sortSpeed);
         if (this.state.stopRunning) return;
         this.swap(arr, i, j);
         this.state.arrayColor[i] = this.gray;
         this.state.arrayColor[j] = this.gray;
-        this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
-        await this.delay(this.state.sortSpeed / 2);
-        if (this.state.stopRunning) return;
       }
     }
     this.state.arrayColor[right] = this.gray;
@@ -194,6 +188,7 @@ export class AppContainer extends React.Component {
     // // of both arrays to merge
     // return;
     while (start <= mid && start2 <= end) {
+      if (this.state.stopRunning) return;
       // If element 1 is in right place
       if (arr[start] <= arr[start2]) {
         start++;
@@ -205,9 +200,21 @@ export class AppContainer extends React.Component {
         // element 2, right by 1.
         while (index !== start) {
           arr[index] = arr[index - 1];
+
+          this.state.arrayColor[index] = this.red;
+          this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
+          await this.delay(this.state.sortSpeed / 2);
+          if (this.state.stopRunning) return;
+          this.state.arrayColor[index] = this.gray;
+
           index--;
         }
         arr[start] = value;
+        this.state.arrayColor[start] = this.red;
+        this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
+        await this.delay(this.state.sortSpeed / 2);
+        if (this.state.stopRunning) return;
+        this.state.arrayColor[start] = this.gray;
 
         // Update all the pointers
         start++;
@@ -244,26 +251,34 @@ export class AppContainer extends React.Component {
       // this.state.arrayColor[j] = this.gray;
       // this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
 
-      this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
-      await this.delay(this.state.sortSpeed / 1);
-      if (this.state.stopRunning) return;
+      // this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
+      // await this.delay(this.state.sortSpeed / 1);
+      // if (this.state.stopRunning) return;
     }
   }
 
-  async heapSort() {
-    var arr = this.state.arrayNum;
+  async heapSort(arr) {
     var len = arr.length;
 
     // Build heap (rearrange array)
-    for (var i = Math.floor(len / 2) - 1; i >= 0; i--)
-      await this.heapify(arr, len, i);
+    for (var i = Math.floor(len / 2) - 1; i >= 0; i--) await this.heapify(arr, len, i);
 
     // One by one extract an element from heap
     for (i = len - 1; i > 0; i--) {
+      if (this.state.stopRunning) return;
       // Move current root to end
-      var temp = arr[0];
-      arr[0] = arr[i];
-      arr[i] = temp;
+      this.state.arrayColor[0] = this.red;
+      this.state.arrayColor[i] = this.red;
+      this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
+      await this.delay(this.state.sortSpeed / 2);
+
+      this.swap(arr, 0, i);
+
+      this.state.arrayColor[0] = this.gray;
+      this.state.arrayColor[i] = this.gray;
+      this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
+      await this.delay(this.state.sortSpeed / 2);
+      if (this.state.stopRunning) return;
 
       // call max heapify on the reduced heap
       await this.heapify(arr, i, 0);
@@ -287,7 +302,6 @@ export class AppContainer extends React.Component {
 
     // If largest is not root
     if (largest !== parent) {
-      let a = parseInt(Math.floor(Math.random() * 10));
       this.state.arrayColor[parent] = this.red;
       this.state.arrayColor[largest] = this.red;
       this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
@@ -307,8 +321,62 @@ export class AppContainer extends React.Component {
     }
   }
 
-  /* l is for left index and r is right index
-  of the sub-array of arr to be sorted */
+  async countSort(arr, n, exp) {
+    let output = [...arr]; // output array
+    let i;
+    let count = new Array(10).fill(0);
+
+    // Store count of occurrences in count[]
+    for (i = 0; i < n; i++) count[Math.floor(arr[i] / exp) % 10]++;
+
+    // Change count[i] so that count[i] now contains
+    // actual position of this digit in output[]
+    for (i = 1; i < 10; i++) count[i] += count[i - 1];
+
+    // Build the output array
+    for (i = n - 1; i >= 0; i--) {
+      let x = count[Math.floor(arr[i] / exp) % 10] - 1;
+      output[x] = arr[i];
+      count[Math.floor(arr[i] / exp) % 10]--;
+
+      this.state.arrayColor[x] = this.red;
+      this.setState({ arrayColor: this.state.arrayColor, arrayNum: output });
+      await this.delay(this.state.sortSpeed / 1);
+      this.state.arrayColor[x] = this.gray;
+      if (this.state.stopRunning) return;
+    }
+
+    // Copy the output array to arr[], so that arr[] now
+    // contains sorted numbers according to current digit
+    for (i = 0; i < n; i++) {
+      arr[i] = output[i];
+
+      this.state.arrayColor[i] = this.red;
+      this.setState({ arrayColor: this.state.arrayColor, arrayNum: output });
+      await this.delay(this.state.sortSpeed / 1);
+      this.state.arrayColor[i] = this.gray;
+      if (this.state.stopRunning) return;
+    }
+  }
+
+  // The main function to that sorts arr[] of size n using
+  // Radix Sort
+  async radixSort(arr) {
+    // Find the maximum number to know number of digits
+    let len = arr.length;
+    for (let i = 0; i < len; i++) {
+      this.state.arrayColor[i] = this.red;
+      this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
+      await this.delay(this.state.sortSpeed / 1);
+      this.state.arrayColor[i] = this.gray;
+      if (this.state.stopRunning) return;
+    }
+
+    // Do counting sort for every digit. Note that
+    // instead of passing digit number, exp is passed.
+    // exp is 10^i where i is current digit number
+    for (let exp = 1; Math.floor(len / exp) > 0; exp *= 10) await this.countSort(arr, len, exp);
+  }
 
   setColorGray() {
     this.setState({ arrayColor: this.state.arrayColor.fill(this.gray) });
@@ -318,7 +386,7 @@ export class AppContainer extends React.Component {
     for (let i = 0; i < this.state.arrayColor.length; i++) {
       this.state.arrayColor[i] = this.green;
       this.setState({ arrayColor: this.state.arrayColor });
-      await this.delay(this.state.sortSpeed / 10);
+      await this.delay(750 / this.state.arrayNum.length);
     }
   }
 
@@ -332,10 +400,10 @@ export class AppContainer extends React.Component {
     var len = arr.length;
     switch (this.state.currentAlgorithm) {
       case "Bubble Sort":
-        await this.bubbleSort();
+        await this.bubbleSort(arr);
         break;
       case "Insertion Sort":
-        await this.insertionSort();
+        await this.insertionSort(arr);
         break;
       case "Quick Sort":
         await this.quickSort(arr, 0, len - 1);
@@ -344,7 +412,10 @@ export class AppContainer extends React.Component {
         await this.mergeSort(arr, 0, len - 1);
         break;
       case "Heap Sort":
-        await this.heapSort();
+        await this.heapSort(arr);
+        break;
+      case "Radix Sort":
+        await this.radixSort(arr);
         break;
       default:
         console.log(this.state.currentAlgorithm, "is not a algorithm");
@@ -371,6 +442,13 @@ export class AppContainer extends React.Component {
     // this.shuffle();
   }
 
+  handleChangeAlgorithm(algorithm) {
+    this.setState({ currentAlgorithm: algorithm });
+    this.setState({ stopRunning: true });
+    // this.shuffle();
+    this.generateNewArrays(this.state.arrayNum.length);
+  }
+
   render() {
     return (
       <main>
@@ -379,43 +457,23 @@ export class AppContainer extends React.Component {
           <div className="algorithmContainer">
             <div className="chooseAlgorithm">
               <h2>Choose Algorithm</h2>
-              <button
-                className="algorithmButton"
-                onClick={() =>
-                  this.setState({ currentAlgorithm: "Bubble Sort" })
-                }
-              >
+              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Bubble Sort")}>
                 Bubble Sort
               </button>
-              <button
-                className="algorithmButton"
-                onClick={() =>
-                  this.setState({ currentAlgorithm: "Insertion Sort" })
-                }
-              >
+              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Insertion Sort")}>
                 Insertion Sort
               </button>
-              <button
-                className="algorithmButton"
-                onClick={() =>
-                  this.setState({ currentAlgorithm: "Merge Sort" })
-                }
-              >
+              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Merge Sort")}>
                 Merge Sort
               </button>
-              <button
-                className="algorithmButton"
-                onClick={() =>
-                  this.setState({ currentAlgorithm: "Quick Sort" })
-                }
-              >
+              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Quick Sort")}>
                 Quick Sort
               </button>
-              <button
-                className="algorithmButton"
-                onClick={() => this.setState({ currentAlgorithm: "Heap Sort" })}
-              >
+              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Heap Sort")}>
                 Heap Sort
+              </button>
+              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Radix Sort")}>
+                Radix Sort
               </button>
             </div>
             <div className="selectedAlgorithm">
@@ -428,6 +486,7 @@ export class AppContainer extends React.Component {
               <SortingCellGrid
                 arrayNum={this.state.arrayNum}
                 arrayColor={this.state.arrayColor}
+                sound={pop}
               ></SortingCellGrid>
             </div>
             <div className="buttonContainer">
@@ -435,12 +494,10 @@ export class AppContainer extends React.Component {
                 <h2>Number of Columns</h2>
                 <input
                   type="range"
-                  min="10"
-                  max="200"
+                  min="5"
+                  max="100"
                   value={this.state.arrayNum.length}
-                  onChange={(event) =>
-                    this.generateNewArrays(event.target.value)
-                  }
+                  onChange={(event) => this.generateNewArrays(event.target.value)}
                   // onChange={({target: {value: radius}})}
                   className="numColumnsSlider"
                   id="slider"
@@ -467,18 +524,10 @@ export class AppContainer extends React.Component {
 
                 <p>Delay per comparision: {this.state.sortSpeed} ms</p>
               </div>
-              <button
-                className="shuffleButton"
-                title="Shuffle columns"
-                onClick={() => this.shuffle()}
-              >
+              <button className="shuffleButton" title="Shuffle columns" onClick={() => this.shuffle()}>
                 <ShuffleSvg className="shuffleSvg"></ShuffleSvg>
               </button>
-              <button
-                className="runButton"
-                title="Run choosen algorithm"
-                onClick={() => this.runAlgorithm()}
-              >
+              <button className="runButton" title="Run choosen algorithm" onClick={() => this.runAlgorithm()}>
                 <PlaySvg className="playSvg"></PlaySvg>
               </button>
             </div>

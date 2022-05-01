@@ -1,4 +1,5 @@
 import { SortingCell } from "./SortingCell";
+import { v4 as uuidv4 } from "uuid";
 
 export const SortingCellGrid = (props) => {
   let gapWidth = 200 / props.arrayNum.length;
@@ -25,10 +26,11 @@ export const SortingCellGrid = (props) => {
         // console.log(props.array.length);
         return (
           <SortingCell
+            sound={props.sound}
             height={num}
             arrayLen={props.arrayNum.length}
             color={props.arrayColor[i]}
-            key={num}
+            key={uuidv4()}
           ></SortingCell>
         );
       })}
