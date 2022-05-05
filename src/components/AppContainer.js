@@ -3,15 +3,17 @@ import React from "react";
 import { SortingCellGrid } from "./SortingCellGrid";
 import { ReactComponent as ShuffleSvg } from "./refresh-svg.svg";
 import { ReactComponent as PlaySvg } from "./play-svg.svg";
-import pop from "./pop.mp3";
+// import pop from "./pop.mp3";
+import pop from "./pianoA.mp3";
 
 export class AppContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       arrayNum: [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-        31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+        39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
       ],
       arrayColor: Array(50).fill(this.gray),
       sortSpeed: 50,
@@ -27,6 +29,7 @@ export class AppContainer extends React.Component {
   green = "#2c9425";
 
   shuffle() {
+    this.props.playSound(1);
     this.setState({ stopRunning: true });
     var arr = this.state.arrayNum;
     let currentIndex = arr.length,
@@ -39,7 +42,10 @@ export class AppContainer extends React.Component {
       currentIndex--;
 
       // And swap it with the current element.
-      [arr[currentIndex], arr[randomIndex]] = [arr[randomIndex], arr[currentIndex]];
+      [arr[currentIndex], arr[randomIndex]] = [
+        arr[randomIndex],
+        arr[currentIndex],
+      ];
     }
     // console.log(array);
     this.setState({ arrayNum: arr });
@@ -49,6 +55,7 @@ export class AppContainer extends React.Component {
   delay = async (ms) => new Promise((res) => setTimeout(res, ms));
 
   swap(arr, i, j) {
+    this.props.playSound(arr[i] / arr.length);
     var temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
@@ -261,7 +268,8 @@ export class AppContainer extends React.Component {
     var len = arr.length;
 
     // Build heap (rearrange array)
-    for (var i = Math.floor(len / 2) - 1; i >= 0; i--) await this.heapify(arr, len, i);
+    for (var i = Math.floor(len / 2) - 1; i >= 0; i--)
+      await this.heapify(arr, len, i);
 
     // One by one extract an element from heap
     for (i = len - 1; i > 0; i--) {
@@ -375,7 +383,8 @@ export class AppContainer extends React.Component {
     // Do counting sort for every digit. Note that
     // instead of passing digit number, exp is passed.
     // exp is 10^i where i is current digit number
-    for (let exp = 1; Math.floor(len / exp) > 0; exp *= 10) await this.countSort(arr, len, exp);
+    for (let exp = 1; Math.floor(len / exp) > 0; exp *= 10)
+      await this.countSort(arr, len, exp);
   }
 
   setColorGray() {
@@ -457,22 +466,40 @@ export class AppContainer extends React.Component {
           <div className="algorithmContainer">
             <div className="chooseAlgorithm">
               <h2>Choose Algorithm</h2>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Bubble Sort")}>
+              <button
+                className="algorithmButton"
+                onClick={() => this.handleChangeAlgorithm("Bubble Sort")}
+              >
                 Bubble Sort
               </button>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Insertion Sort")}>
+              <button
+                className="algorithmButton"
+                onClick={() => this.handleChangeAlgorithm("Insertion Sort")}
+              >
                 Insertion Sort
               </button>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Merge Sort")}>
+              <button
+                className="algorithmButton"
+                onClick={() => this.handleChangeAlgorithm("Merge Sort")}
+              >
                 Merge Sort
               </button>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Quick Sort")}>
+              <button
+                className="algorithmButton"
+                onClick={() => this.handleChangeAlgorithm("Quick Sort")}
+              >
                 Quick Sort
               </button>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Heap Sort")}>
+              <button
+                className="algorithmButton"
+                onClick={() => this.handleChangeAlgorithm("Heap Sort")}
+              >
                 Heap Sort
               </button>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Radix Sort")}>
+              <button
+                className="algorithmButton"
+                onClick={() => this.handleChangeAlgorithm("Radix Sort")}
+              >
                 Radix Sort
               </button>
             </div>
@@ -497,7 +524,9 @@ export class AppContainer extends React.Component {
                   min="5"
                   max="100"
                   value={this.state.arrayNum.length}
-                  onChange={(event) => this.generateNewArrays(event.target.value)}
+                  onChange={(event) =>
+                    this.generateNewArrays(event.target.value)
+                  }
                   // onChange={({target: {value: radius}})}
                   className="numColumnsSlider"
                   id="slider"
@@ -524,10 +553,18 @@ export class AppContainer extends React.Component {
 
                 <p>Delay per comparision: {this.state.sortSpeed} ms</p>
               </div>
-              <button className="shuffleButton" title="Shuffle columns" onClick={() => this.shuffle()}>
+              <button
+                className="shuffleButton"
+                title="Shuffle columns"
+                onClick={() => this.shuffle()}
+              >
                 <ShuffleSvg className="shuffleSvg"></ShuffleSvg>
               </button>
-              <button className="runButton" title="Run choosen algorithm" onClick={() => this.runAlgorithm()}>
+              <button
+                className="runButton"
+                title="Run choosen algorithm"
+                onClick={() => this.runAlgorithm()}
+              >
                 <PlaySvg className="playSvg"></PlaySvg>
               </button>
             </div>

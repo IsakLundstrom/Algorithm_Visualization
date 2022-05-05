@@ -1,9 +1,12 @@
 import React from "react";
 import useSound from "use-sound";
 export const SortingCell = (props) => {
-  const [playbackRate, setPlaybackRate] = React.useState(props.height / props.arrayLen + 0.5);
+  const [playbackRate, setPlaybackRate] = React.useState(
+    props.height / props.arrayLen + 0.5
+  );
   const [play] = useSound(props.sound, {
     playbackRate,
+    interrupt: true,
     volume: 0.2,
   });
 
@@ -11,7 +14,7 @@ export const SortingCell = (props) => {
     // console.log("sound", props.color !== "#989c94");
     if (props.color !== "#989c94") play();
   }
-  // handleSound();
+  handleSound();
   return (
     <div
       style={{
