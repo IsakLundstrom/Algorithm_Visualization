@@ -1,9 +1,8 @@
 import "./style.css";
 import React from "react";
 import { SortingCellGrid } from "./SortingCellGrid";
-import { ReactComponent as ShuffleSvg } from "./refresh-svg.svg";
-import { ReactComponent as PlaySvg } from "./play-svg.svg";
-import pop from "./pop.mp3";
+import { ReactComponent as ShuffleSvg } from "./svgs/refresh-svg.svg";
+import { ReactComponent as PlaySvg } from "./svgs/play-svg.svg";
 
 export class AppContainer extends React.Component {
   constructor(props) {
@@ -66,8 +65,6 @@ export class AppContainer extends React.Component {
           swapHappend = true;
         }
 
-        // let color =
-        //   (!swapHappend && i === arr[i - 1]) || false ? "#449dd1" : this.gray;
         this.state.arrayColor[i - 1] = this.gray;
         this.state.arrayColor[i] = this.red;
         this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
@@ -76,9 +73,6 @@ export class AppContainer extends React.Component {
       }
       if (this.state.stopRunning) return;
 
-      // await this.delay(this.state.sortSpeed);
-      // this.state.arrayColor[len - 1] = "#449dd1";
-      // this.setState({ arrayColor: this.state.arrayColor });
       this.setColorGray();
       len--;
     }
@@ -91,18 +85,17 @@ export class AppContainer extends React.Component {
       let j = i;
       while (j > 0 && arr[j - 1] > arr[j]) {
         this.state.arrayColor[j] = this.red;
-        // this.state.arrayColor[j - 1] = "#449dd1";
         this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
         await this.delay(this.state.sortSpeed / 2);
+
         if (this.state.stopRunning) return;
         this.swap(arr, j, j - 1);
         this.state.arrayColor[j - 1] = this.red;
-        // this.state.arrayColor[j] = "#449dd1";
         this.state.arrayColor[j] = this.gray;
         this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
         await this.delay(this.state.sortSpeed / 2);
+
         if (this.state.stopRunning) return;
-        // this.state.arrayColor[j] = this.gray;
         j--;
       }
       this.state.arrayColor[j] = this.gray;
@@ -128,12 +121,6 @@ export class AppContainer extends React.Component {
     this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
     // await this.delay(this.state.sortSpeed);
     for (var j = left; j < right; j++) {
-      // while (arr[i] < pivot) {
-      //   i++;
-      // }
-      // while (arr[j] > pivot) {
-      //   j--;
-      // }
       if (arr[j] <= pivot && i - 1 !== j) {
         i++;
         this.state.arrayColor[i] = this.red;
@@ -163,7 +150,6 @@ export class AppContainer extends React.Component {
 
       await this.merge(arr, left, middle, right);
     }
-    // this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
   }
 
   async merge(arr, start, mid, end) {
@@ -174,19 +160,6 @@ export class AppContainer extends React.Component {
       return;
     }
 
-    // let arr1 = arr.slice(start-1, mid);
-    // let arr2 = arr.slice(mid, end);
-    // let i = 0;
-    // let j = 0;
-    // let len = arr1.length;
-
-    // while(i < len || j < len){
-    //   if(arr1[i] < arr2[j])
-    // }
-
-    // // Two pointers to maintain start
-    // // of both arrays to merge
-    // return;
     while (start <= mid && start2 <= end) {
       if (this.state.stopRunning) return;
       // If element 1 is in right place
@@ -221,39 +194,6 @@ export class AppContainer extends React.Component {
         mid++;
         start2++;
       }
-      // this.state.arrayColor[start] = "#1d4f4f";
-      // this.state.arrayColor[start2] = this.red;
-      // this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
-      // await this.delay(this.state.sortSpeed / 2);
-      // if (this.state.stopRunning) return;
-      // this.swap(arr, start, start2); //swap two elements
-      // this.state.arrayColor[start] = this.gray;
-      // this.state.arrayColor[start2] = this.gray;
-
-      // if (arr[start] <= arr[start2]) {
-      //   start++;
-      // } else {
-      //   // while (arr[start] > arr[start2]) {
-      //   this.state.arrayColor[start] = "#1d4f4f";
-      //   this.state.arrayColor[start2] = this.red;
-      //   this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
-      //   await this.delay(this.state.sortSpeed / 2);
-      //   if (this.state.stopRunning) return;
-      //   this.swap(arr, start, start2); //swap two elements
-      //   this.state.arrayColor[start] = this.gray;
-      //   this.state.arrayColor[start2] = this.gray;
-      //   start++;
-      //   start2++;
-      //   console.log(start, arr[start], start2, arr[start2]);
-      //   // }
-      //   mid++;
-      // }
-      // this.state.arrayColor[j] = this.gray;
-      // this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
-
-      // this.setState({ arrayColor: this.state.arrayColor, arrayNum: arr });
-      // await this.delay(this.state.sortSpeed / 1);
-      // if (this.state.stopRunning) return;
     }
   }
 
@@ -439,13 +379,11 @@ export class AppContainer extends React.Component {
       arrayNum: newArrayNum,
       arrayColor: newArrayColor,
     });
-    // this.shuffle();
   }
 
   handleChangeAlgorithm(algorithm) {
     this.setState({ currentAlgorithm: algorithm });
     this.setState({ stopRunning: true });
-    // this.shuffle();
     this.generateNewArrays(this.state.arrayNum.length);
   }
 
@@ -455,26 +393,28 @@ export class AppContainer extends React.Component {
         <h1 className="h1Part1">Algorithm</h1>
         <div className="mainApp">
           <div className="algorithmContainer">
-            <div className="chooseAlgorithm">
-              <h2>Choose Algorithm</h2>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Bubble Sort")}>
-                Bubble Sort
-              </button>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Insertion Sort")}>
-                Insertion Sort
-              </button>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Merge Sort")}>
-                Merge Sort
-              </button>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Quick Sort")}>
-                Quick Sort
-              </button>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Heap Sort")}>
-                Heap Sort
-              </button>
-              <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Radix Sort")}>
-                Radix Sort
-              </button>
+            <div className="chooseAlgorithmContainer">
+              <div className="chooseAlgorithm">
+                <h2>Choose Algorithm</h2>
+                <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Bubble Sort")}>
+                  Bubble Sort
+                </button>
+                <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Insertion Sort")}>
+                  Insertion Sort
+                </button>
+                <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Merge Sort")}>
+                  Merge Sort
+                </button>
+                <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Quick Sort")}>
+                  Quick Sort
+                </button>
+                <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Heap Sort")}>
+                  Heap Sort
+                </button>
+                <button className="algorithmButton" onClick={() => this.handleChangeAlgorithm("Radix Sort")}>
+                  Radix Sort
+                </button>
+              </div>
             </div>
             <div className="selectedAlgorithm">
               <h2>Selected Algorithm</h2>
@@ -483,11 +423,7 @@ export class AppContainer extends React.Component {
           </div>
           <div className="sortingAndButtonContainer">
             <div className="sortingCellGridContainer">
-              <SortingCellGrid
-                arrayNum={this.state.arrayNum}
-                arrayColor={this.state.arrayColor}
-                sound={pop}
-              ></SortingCellGrid>
+              <SortingCellGrid arrayNum={this.state.arrayNum} arrayColor={this.state.arrayColor}></SortingCellGrid>
             </div>
             <div className="buttonContainer">
               <div className="sliderContainer">
@@ -498,7 +434,6 @@ export class AppContainer extends React.Component {
                   max="100"
                   value={this.state.arrayNum.length}
                   onChange={(event) => this.generateNewArrays(event.target.value)}
-                  // onChange={({target: {value: radius}})}
                   className="numColumnsSlider"
                   id="slider"
                   step="1"

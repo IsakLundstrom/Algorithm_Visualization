@@ -37,7 +37,6 @@ main {
 .mainApp {
   display: flex;
   align-content: center;
-  /* border: 2px solid red; */
   margin: 30px auto 0 auto;
   width: 100%;
 }
@@ -67,11 +66,17 @@ p {
   width: 30%;
 }
 
+.chooseAlgorithmContainer {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  height: var(--sorting-container-size);
+}
+
 .chooseAlgorithm {
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: var(--sorting-container-size);
   margin-bottom: 10px;
 }
 
@@ -90,7 +95,6 @@ p {
 
 .algorithmContainer h2 {
   margin-bottom: 10px;
-  /* font-size: 2rem; */
 }
 
 .algorithmButton {
@@ -115,7 +119,6 @@ p {
 }
 
 .sortingCellGridContainer {
-  /* background-color: lightgray; */
   padding: 20px;
   height: var(--sorting-container-size);
   border: 3px solid var(--accent-color);
@@ -150,10 +153,6 @@ p {
   transform: scale(100%);
 }
 
-/* .playSvg {
-  margin-left: 10px;
-} */
-
 .runButton {
   position: relative;
   background-color: var(--green-color);
@@ -176,39 +175,15 @@ p {
   transform: scale(100%);
 }
 
-/* .runButton:active {
-  transform: translateY(10px);
-} */
-
-/* .runButton::before:active {
-  transform: translateY(5px);
-} */
-
 .playSvg {
   margin-left: 12px;
   margin-top: 2px;
 }
-/* 
-.runButton::before {
-  z-index: -1;
-  content: "";
-  background-color: #1e6619;
-  background-color: red;
-  border-radius: 50%;
-  height: 100px;
-  width: 100px;
-  position: absolute;
-  top: 5px;
-  left: 0;
-} */
 
 .sliderContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.sliderContainer h2 {
 }
 
 #slider {
@@ -246,11 +221,13 @@ p {
   cursor: pointer;
 }
 
-#slider::-webkit-slider-thumb:hover {
+#slider::-webkit-slider-thumb:hover,
+#slider::-webkit-slider-thumb:focus {
   background: var(--accent-color-hover);
 }
 
-#slider::-moz-range-thumb:hover {
+#slider::-moz-range-thumb:hover,
+#slider::-moz-range-thumb:focus {
   background: var(--accent-color-hover);
 }
 
